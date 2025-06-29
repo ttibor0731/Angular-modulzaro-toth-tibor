@@ -1,0 +1,47 @@
+<div class="container mt-5 login-box">
+  <h2>Bejelentkezés</h2>
+
+  <div class="mb-3">
+    <label for="username" class="form-label">Felhasználónév</label>
+    <input id="username" type="text" class="form-control" [(ngModel)]="username" />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Jelszó</label>
+    <input id="password" type="password" class="form-control" [(ngModel)]="password" />
+  </div>
+
+  <button class="btn btn-primary" (click)="login()">Bejelentkezés</button>
+
+  @if (loginFailed) {
+    <div class="text-danger mt-2">
+      Hibás adatok vagy nem regisztrált felhasználó.
+    </div>
+  }
+
+  <!-- Regisztráció gomb mindig látható -->
+  <div class="mt-4">
+    <button class="btn btn-outline-secondary" (click)="openRegistration()">Regisztráció</button>
+  </div>
+
+  <!-- Regisztrációs űrlap csak akkor, ha kell -->
+  @if (showRegistrationForm) {
+    <div class="mt-4 border-top pt-3 pb-5">
+      <h5>Regisztráció</h5>
+
+      <div class="mb-3">
+        <label for="name" class="form-label">Teljes név</label>
+        <input id="name" class="form-control" [(ngModel)]="name" />
+        <label for="username" class="form-label">Felhasználónév</label>
+        <input type="text" id="username" class="form-control" [(ngModel)]="username" />
+        <label for="password" class="form-label">Jelszó</label>
+        <input type="text" id="password" class="form-control" [(ngModel)]="password" />
+      </div>
+
+      <button class="btn btn-success" (click)="register()">Regisztráció megerősítése</button>
+    </div>
+  }
+</div>
+
+
+
