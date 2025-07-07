@@ -7,10 +7,9 @@ declare var bootstrap: any;
 
 @Component({
   selector: 'app-tasks',
-  standalone: true,
+  standalone: false,
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
-  imports: [FormsModule],
 })
 export class TasksComponent {
   tasks: { text: string; date: number }[] = [];
