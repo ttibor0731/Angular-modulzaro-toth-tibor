@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';
+import { TaskService } from '../../services/task.service';
+import { Task } from '../../models/task';
+
 
 declare var bootstrap: any;
 
@@ -12,21 +14,23 @@ declare var bootstrap: any;
   styleUrls: ['./tasks.component.css'],
 })
 export class TasksComponent {
-  tasks: { text: string; date: number }[] = [];
-  newTask: { text: string; date: number } = { text: '', date: Date.now() };
+  public newTaskTitle = '';
+  taskService = inject(TaskService);
   modal: any;
-  editingTask: { text: string; date: number } | null = null;
-
-  constructor(public authService: AuthService, private router: Router) {}
+  public tasks = signal<Task[]>([]);
 
   ngOnInit() {
     this.modal = new bootstrap.Modal(document.getElementById('taskModal'));
     this.loadTasks(); // 💾 Feladatok betöltése
   }
 
+   // 🔽 ÚJ: Feladatok betöltése a localStorage-ből
+  loadTasks() {
+   this.taskService.getTasks().subscribe((list) => this.tasks.set(list));
+  }
+
   openModal() {
-    this.newTask = { text: '', date: Date.now() };
-    this.editingTask = null;
+    this.newTaskTitle = '';
     this.modal.show();
   }
 
@@ -58,10 +62,7 @@ export class TasksComponent {
     this.saveTasks(); // 💾 Frissítés mentés után
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
+
 
   // 🔽 ÚJ: Feladatok mentése a localStorage-be
   saveTasks() {
@@ -70,13 +71,7 @@ export class TasksComponent {
     localStorage.setItem(`tasks_${user.username}`, JSON.stringify(this.tasks));
   }
 
-  // 🔽 ÚJ: Feladatok betöltése a localStorage-ből
-  loadTasks() {
-    const user = this.authService.getLoggedInUser();
-    if (!user) return;
-    const saved = localStorage.getItem(`tasks_${user.username}`);
-    this.tasks = saved ? JSON.parse(saved) : [];
-  }
+ 
 }
 
 

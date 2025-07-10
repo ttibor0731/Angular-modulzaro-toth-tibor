@@ -1,4 +1,9 @@
 <h1>Feladat nyilvántartó</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4>Üdvözlünk, {{ authService.loggedInUser?.name }}!</h4>
+  <button class="btn btn-outline-danger" (click)="logout()">
+    Kijelentkezés
+  </button>
+</div>
 
 <router-outlet></router-outlet>
-

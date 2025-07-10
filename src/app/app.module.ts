@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { LoginComponent } from './pages/login/login.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,9 @@ import { TasksComponent } from './pages/tasks/tasks.component';
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
+  ],
+  providers: [
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })

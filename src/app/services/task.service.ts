@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-
-export interface Task {
-  text: string;
-  date: number;
-}
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Task } from '../models/task';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
+  private httpClient = inject(HttpClient);
+  
   constructor() {}
 
-  getTasks(username: string): Task[] {
-    const saved = localStorage.getItem(`tasks_${username}`);
-    return saved ? JSON.parse(saved) : [];
+  getTasks(): Observable<Task[]> {
+    return this.httpClient.get<Task[]>('http://localhost:3000/tasks');
   }
 
-  saveTasks(username: string, tasks: Task[]): void {
-    localStorage.setItem(`tasks_${username}`, JSON.stringify(tasks));
+  saveTasks(task: Task): Observable<Task> {
+    return this.httpClient.post<Task>('http://localhost:3000/tasks', task);
   }
 }
